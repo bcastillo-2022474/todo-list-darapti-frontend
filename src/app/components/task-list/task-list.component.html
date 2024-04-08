@@ -1,0 +1,19 @@
+@if (isEmpty()) {
+  <div class="p-5 flex justify-center bg-secondary-100">
+    <div class="border font-bold bg-secondary-300 text-blue-brown rounded px-2">
+      No Todo Found
+    </div>
+  </div>
+}
+
+@if (!isEmpty()) {
+  <div
+    cdkDropList
+    (cdkDropListDropped)="drop($event)"
+    class="p-5 flex flex-col items-center justify-center bg-secondary-100 gap-3"
+  >
+    @for (task of list(); track task.id) {
+      <app-task-card cdkDrag class="w-full cursor-grab" [task]="task" />
+    }
+  </div>
+}

@@ -1,55 +1,40 @@
-
-
-@if (isModalOpen()) {
-  <div class="h-screen absolute w-full flex justify-center items-center">
-  <div (click)="closeModal()" class="h-full w-full absolute bg-black opacity-50"></div>
-  <section class="bg-secondary-100 p-5 rounded-xl relative w-full max-w-md">
-    <button (click)="closeModal()" class="absolute border bottom-full left-[97%] mb-1 mr-5 px-1 rounded bg-inherit">
-      <fa-icon [icon]="faClose"></fa-icon>
-    </button>
-    <h2 class="text-2xl py-2 font-semibold">Add Task</h2>
-    <form class="flex flex-col gap-4">
-      <div class="flex flex-col gap-1">
-        <label class="text-sm">Title</label>
-      <input #titleInput
-        class="px-2 py-1 w-full" type="text">
-      </div>
-      <div class="flex flex-col gap-1">
-        <label class="text-sm">Status</label>
-      <input
-        class="px-2 py-1 w-full" type="text">
-      </div>
-      <div class="flex gap-5">
-        <button class="px-3 py-2 bg-primary rounded text-white">
-        Add Task
-      </button>
-        <button class="px-3 py-2 bg-secondary-200 rounded">
-          cancel
-      </button>
-      </div>
-    </form>
-  </section>
-  </div>
-}
-
-<div
-  class="h-dvh bg-[#f8f8ff] flex flex-col items-center">
-  <h1 class="text-4xl mb-2 font-bold">Todo List</h1>
-  <main class="h-full w-full max-w-lg flex flex-col gap-3">
+<div #container class="h-screen flex flex-col items-center py-5 px-5">
+  <h1 class="text-4xl mb-2 font-bold text-blue-brown">
+    {{ title | uppercase }}
+  </h1>
+  <main class="h-full w-full max-w-screen-md flex flex-col gap-3">
     <div class="flex justify-between gap-3">
-      <button (click)="openModal()" class="px-3 py-2 bg-primary rounded text-white">
+      <button class="button-primary" (click)="openModal(modal)">
         Add to Task
       </button>
-      <button class="px-3 py-2 min-w-[15ch] bg-secondary-200 flex rounded justify-between">
+      <button
+        class="button-secondary min-w-[15ch] flex rounded justify-between"
+      >
         <span>All</span>
         <span>
-      <fa-icon [icon]="faChevronDown"></fa-icon>
+          <fa-icon [icon]="faChevronDown"></fa-icon>
         </span>
       </button>
     </div>
     <!-- LIST OF TASKS-->
-    <div class="p-5 flex justify-center bg-secondary-100">
-      <div class="border font-bold bg-secondary-300 rounded px-2">No Todo Found</div>
-    </div>
+    <app-task-list />
   </main>
 </div>
+
+<app-modal #modal [container]="container">
+  <h2 class="text-2xl py-2 font-semibold">Add Task</h2>
+  <form class="flex flex-col gap-4">
+    <div class="flex flex-col gap-1">
+      <label class="text-sm text-blue-brown">Title</label>
+      <input #titleInput class="px-2 py-1 w-full outline-button" type="text" />
+    </div>
+    <div class="flex flex-col gap-1">
+      <label class="text-sm text-blue-brown">Status</label>
+      <input class="px-2 py-1 w-full outline-button" type="text" />
+    </div>
+    <div class="flex gap-5">
+      <button class="button-primary">Add Task</button>
+      <button class="button-secondary">cancel</button>
+    </div>
+  </form>
+</app-modal>
