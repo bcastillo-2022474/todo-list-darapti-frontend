@@ -1,9 +1,9 @@
 
 
-@if (!isModalOpen()) {
+@if (isModalOpen()) {
   <div class="h-screen absolute w-full flex justify-center items-center">
   <div (click)="closeModal()" class="h-full w-full absolute bg-black opacity-50"></div>
-  <section class="bg-[#ecedf6] p-5 rounded-xl relative w-full max-w-md">
+  <section class="bg-secondary-100 p-5 rounded-xl relative w-full max-w-md">
     <button (click)="closeModal()" class="absolute border bottom-full left-[97%] mb-1 mr-5 px-1 rounded bg-inherit">
       <fa-icon [icon]="faClose"></fa-icon>
     </button>
@@ -20,10 +20,10 @@
         class="px-2 py-1 w-full" type="text">
       </div>
       <div class="flex gap-5">
-        <button class="px-3 py-2 bg-[#646ff0] rounded text-white">
+        <button class="px-3 py-2 bg-primary rounded text-white">
         Add Task
       </button>
-        <button class="px-3 py-2 bg-[#cccdde] rounded">
+        <button class="px-3 py-2 bg-secondary-200 rounded">
           cancel
       </button>
       </div>
@@ -37,10 +37,10 @@
   <h1 class="text-4xl mb-2 font-bold">Todo List</h1>
   <main class="h-full w-full max-w-lg flex flex-col gap-3">
     <div class="flex justify-between gap-3">
-      <button (click)="openModal()" class="px-3 py-2 bg-[#646ff0] rounded text-white">
+      <button (click)="openModal()" class="px-3 py-2 bg-primary rounded text-white">
         Add to Task
       </button>
-      <button class="px-3 py-2 min-w-[15ch] bg-[#cccdde] flex rounded justify-between">
+      <button class="px-3 py-2 min-w-[15ch] bg-secondary-200 flex rounded justify-between">
         <span>All</span>
         <span>
       <fa-icon [icon]="faChevronDown"></fa-icon>
@@ -48,8 +48,8 @@
       </button>
     </div>
     <!-- LIST OF TASKS-->
-    <div class="p-5 flex justify-center bg-[#ecedf6]">
-      <div class="border font-bold bg-[#dbdcde] rounded px-2">No Todo Found</div>
+    <div class="p-5 flex justify-center bg-secondary-100">
+      <div class="border font-bold bg-secondary-300 rounded px-2">No Todo Found</div>
     </div>
   </main>
 </div>
