@@ -1,0 +1,28 @@
+@if (isModalOpen()) {
+  <div
+    @ngIfAnimation
+    class="h-screen absolute top-0 w-full flex justify-center items-center overflow-y-hidden"
+  >
+    <div
+      *ngIf="isModalOpen()"
+      @fadeBackground
+      (click)="closeModal()"
+      class="h-full w-full absolute bg-black bg-opacity-50"
+    ></div>
+    <section
+      *ngIf="isModalOpen()"
+      @slide
+      class="bg-secondary-100 p-5 rounded-xl relative w-full max-w-md"
+    >
+      <button
+        (click)="closeModal()"
+        class="button-base absolute border bottom-full left-[97%] mb-1 mr-5 px-1 py-0 bg-inherit"
+      >
+        <fa-icon [icon]="faClose"></fa-icon>
+      </button>
+      <div class="w-full h-full">
+        <ng-content></ng-content>
+      </div>
+    </section>
+  </div>
+}

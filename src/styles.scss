@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.button {
+  @apply px-3 py-2 outline-none focus:outline-primary focus:outline-offset-2 rounded;
+
+  &-base {
+    @apply outline-none focus:outline-primary focus:outline-offset-2 rounded;
+  }
+
+  &-primary {
+    // extends the base button class
+    @apply button bg-primary text-white
+  }
+
+  &-secondary {
+    @apply button bg-secondary-200
+  }
+
+}
+
+.outline-button {
+  @apply outline-none focus:outline-primary focus:outline-offset-2
+}
