@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "npx http-server dist/todo-list-app/browser",
+    "start": "npx http-server --proxy https://todo-list-darapti-demo-fc2fa51cedcc.herokuapp.com? ./dist/todo-list-app/browser/",
     "build": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
