@@ -1,4 +1,12 @@
-import { Component, computed, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  EventEmitter,
+  inject,
+  OnInit,
+  Output,
+  signal,
+} from '@angular/core';
 import {
   CdkDrag,
   CdkDragDrop,
@@ -6,13 +14,7 @@ import {
   moveItemInArray,
 } from '@angular/cdk/drag-drop';
 import { TaskCardComponent } from '../task-card/task-card.component';
-
-export type Task = {
-  id: number;
-  position: number;
-  title: string;
-  status: 'Completed' | 'Pending' | 'In Progress';
-};
+import { Task, TasksService } from '../../services/tasks.service';
 
 @Component({
   selector: 'app-task-list',
@@ -24,38 +26,45 @@ export type Task = {
 export class TaskListComponent implements OnInit {
   list = signal<Task[]>([]);
   isEmpty = computed(() => this.list().length === 0);
+  taskService = inject(TasksService);
+  @Output('edit-task') editTask = new EventEmitter<Task>();
 
   ngOnInit(): void {
     this.fetchList();
   }
 
   fetchList() {
-    setTimeout(() => {
-      this.list.set([
-        { id: 1, position: 1, title: 'Task 1', status: 'Pending' },
-        { id: 2, position: 2, title: 'Task 2', status: 'In Progress' },
-        { id: 3, position: 3, title: 'Task 3', status: 'Completed' },
-      ]);
-    }, 0.1);
+    this.taskService.tasks$.subscribe((tasks) => {
+      this.list.set(tasks.sort((a, b) => a.position - b.position));
+    });
   }
 
   drop(event: CdkDragDrop<Task[]>) {
-    const lastList = [...this.list()];
     moveItemInArray(this.list(), event.previousIndex, event.currentIndex);
     // Update the position of each in the list
     const updatedPositionsTasks = this.list().map((task, i) => {
-      task.position = i;
+      task.position = i + 1;
       return task;
     });
 
-    this.list.set(updatedPositionsTasks);
-
     /*update backend*/
     try {
-      // fetch();
+      this.taskService.updatePositionTasks(updatedPositionsTasks);
+      // this.list.set(updatedPositionsTasks);
     } catch (error) {
       console.error(error);
-      this.list.set(lastList);
     }
+  }
+
+  deleteTask(task: Task) {
+    this.taskService.deleteTask(task);
+  }
+
+  editStatus(task: Task, is_completed: boolean) {
+    this.taskService.updateTask({ ...task, is_completed });
+  }
+
+  emitEditEvent(task: Task) {
+    this.editTask.emit(task);
   }
 }

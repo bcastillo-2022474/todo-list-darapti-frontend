@@ -13,7 +13,14 @@
     class="p-5 flex flex-col items-center justify-center bg-secondary-100 gap-3"
   >
     @for (task of list(); track task.id) {
-      <app-task-card cdkDrag class="w-full cursor-grab" [task]="task" />
+      <app-task-card
+        cdkDrag
+        class="w-full cursor-grab"
+        [task]="task"
+        (delete)="deleteTask(task)"
+        (edit)="emitEditEvent(task)"
+        (checked)="editStatus(task, $event)"
+      />
     }
   </div>
 }

@@ -17,24 +17,60 @@
       </button>
     </div>
     <!-- LIST OF TASKS-->
-    <app-task-list />
+    <app-task-list (edit-task)="openModalEdit($event, modal)" />
   </main>
 </div>
 
-<app-modal #modal [container]="container">
-  <h2 class="text-2xl py-2 font-semibold">Add Task</h2>
-  <form class="flex flex-col gap-4">
+<app-modal (closeModal)="resetModal()" #modal [container]="container">
+  @if (form().isEditModal) {
+    <h2 class="text-2xl py-2 font-semibold">Edit Task</h2>
+  } @else {
+    <h2 class="text-2xl py-2 font-semibold">Add Task</h2>
+  }
+  <div class="flex flex-col gap-4">
     <div class="flex flex-col gap-1">
       <label class="text-sm text-blue-brown">Title</label>
-      <input #titleInput class="px-2 py-1 w-full outline-button" type="text" />
+      <input
+        (blur)="flagAsDrity()"
+        [(ngModel)]="titleInput"
+        #titleInputElement
+        class="px-2 py-1 w-full outline-button"
+        type="text"
+      />
+      <span
+        class="text-red-500 text-xs"
+        [class.invisible]="isValidForm() || !form().isFocused"
+        [class.visible]="!isValidForm() && form().isFocused"
+        >Debe tener almenos 4 caracteres</span
+      >
     </div>
     <div class="flex flex-col gap-1">
       <label class="text-sm text-blue-brown">Status</label>
-      <input class="px-2 py-1 w-full outline-button" type="text" />
+      <!--<input class="px-2 py-1 w-full outline-button" type="text" />-->
+      <ng-select
+        [items]="statusOptions"
+        [bindLabel]="'label'"
+        [bindValue]="'value'"
+        [multiple]="false"
+        [closeOnSelect]="true"
+        [searchable]="true"
+        [clearable]="false"
+        [(ngModel)]="isCompleted"
+      ></ng-select>
     </div>
     <div class="flex gap-5">
-      <button class="button-primary">Add Task</button>
-      <button class="button-secondary">cancel</button>
+      @if (form().isEditModal) {
+        <button (click)="editTask(modal)" class="button-primary">
+          Edit Task
+        </button>
+      } @else {
+        <button (click)="addTask(modal)" class="button-primary">
+          Add Task
+        </button>
+      }
+      <button (click)="modal.closeModal()" class="button-secondary">
+        cancel
+      </button>
     </div>
-  </form>
+  </div>
 </app-modal>

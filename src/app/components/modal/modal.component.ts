@@ -66,7 +66,6 @@ export class ModalComponent implements OnInit {
   // this to be able to animate the modal first render
   isModalOpen = signal(false);
   isModalOpen$ = toObservable(this.isModalOpen);
-  isModalOpenDelayed = this.isModalOpen();
   protected readonly faClose = faClose;
   @Output('closeModal') closeModalEvent = new EventEmitter();
 
@@ -97,14 +96,9 @@ export class ModalComponent implements OnInit {
   closeModal() {
     this.closeModalEvent.emit();
     this.isModalOpen.set(false);
-
-    setTimeout(() => {
-      this.isModalOpenDelayed = this.isModalOpen();
-    }, 1000);
   }
 
   openModal() {
     this.isModalOpen.set(true);
-    this.isModalOpenDelayed = this.isModalOpen();
   }
 }
