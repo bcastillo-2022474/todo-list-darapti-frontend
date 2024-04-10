@@ -24,6 +24,50 @@
 
 }
 
+.ng-select-custom.ng-select-focused {
+  @apply outline-none;
+}
+
+.ng-select-custom.ng-select.ng-select-opened .ng-has-value {
+  @apply bg-secondary-200;  
+}
+
+.ng-select-custom .ng-select-container {
+  @apply bg-secondary-200;
+
+  .ng-has-value {
+    @apply bg-secondary-200 outline-none;
+  }
+}
+
+.ng-select-custom.ng-select.ng-select-focused:not(.ng-select-opened)>.ng-select-container{
+  // border-color:#007eff;
+  // box-shadow:inset 0 1px 1px rgba(0,0,0,0.075),0 0 0 3px rgba(0,126,255,0.1);
+  @apply border-none ring-2 ring-offset-2 ring-primary;
+}
+
+
+.ng-select-custom {
+  .ng-option {
+    &.ng-star-inserted {
+      @apply bg-secondary-100;
+
+      &.ng-option-selected {
+        @apply bg-indigo-200;
+
+        &.ng-option-marked {
+          @apply bg-indigo-300;
+        }
+      }
+
+      &.ng-option-marked {
+        @apply bg-secondary-300;
+      }
+    }
+  }
+
+}
+
 .outline-button {
   @apply outline-none focus:outline-primary focus:outline-offset-2
 }

@@ -12,7 +12,7 @@
     (cdkDropListDropped)="drop($event)"
     class="p-5 flex flex-col items-center justify-center bg-secondary-100 gap-3"
   >
-    @for (task of list(); track task.id) {
+    @for (task of filter(list()); track task.id) {
       <app-task-card
         cdkDrag
         class="w-full cursor-grab"

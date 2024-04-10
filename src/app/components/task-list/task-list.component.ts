@@ -4,6 +4,7 @@ import {
   EventEmitter,
   inject,
   OnInit,
+  input,
   Output,
   signal,
 } from '@angular/core';
@@ -27,6 +28,7 @@ export class TaskListComponent implements OnInit {
   list = signal<Task[]>([]);
   isEmpty = computed(() => this.list().length === 0);
   taskService = inject(TasksService);
+  status = input.required<'All' | 'Completed' | 'Pending'>()
   @Output('edit-task') editTask = new EventEmitter<Task>();
 
   ngOnInit(): void {
@@ -66,5 +68,18 @@ export class TaskListComponent implements OnInit {
 
   emitEditEvent(task: Task) {
     this.editTask.emit(task);
+  }
+
+  filter(taskList: Task[]) {
+    if (this.status() === "Completed") {
+      return taskList.filter(({is_completed}) => is_completed);
+    }
+
+    if (this.status() === "Pending") {
+      return taskList.filter(({is_completed}) => !is_completed);
+    }
+
+    // All
+    return taskList;
   }
 }

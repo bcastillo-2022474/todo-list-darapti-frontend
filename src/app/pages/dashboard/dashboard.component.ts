@@ -33,7 +33,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 })
 export class DashboardComponent {
   title = 'Todo List';
-
+  filterStatus: 'All' | 'Completed' | 'Pending' = "All";
   @ViewChild('titleInputElement')
   titleInputElement!: ElementRef<HTMLInputElement>;
   form = signal<{
@@ -60,13 +60,26 @@ export class DashboardComponent {
   }
 
   tasksService = inject(TasksService);
+
+  clearForm() {
+    this.titleInput = "";
+    this.isCompleted = false;
+  }
+
   focus() {
+    console.log("FOCUS")
     setTimeout(() => this.titleInputElement.nativeElement.focus(), 0);
   }
 
-  openModal(modal: ModalComponent) {
+  openAddModal(modal: ModalComponent) {
+    if (this.form().isEditModal) {
+      console.log(this.form(), "HI");
+      this.form.update((state) => ({...state, isEditModal: false}))
+      this.clearForm();
+    }
+
     modal.openModal();
-    focus();
+    this.focus();
   }
 
   protected readonly faClose = faClose;
@@ -84,10 +97,11 @@ export class DashboardComponent {
     try {
       this.tasksService.addTask({
         title: this.titleInput,
-        is_completed: false,
+        is_completed: this.isCompleted,
       });
 
       modal.closeModal();
+      this.clearForm();
     } catch (error) {
       console.error(error);
     }
@@ -103,10 +117,10 @@ export class DashboardComponent {
       isEditModal: true,
     }));
     this.titleInput = task.title;
-    console.log(this.titleInput, task);
+    this.isCompleted = task.is_completed;
     this.editingTask.set(task);
     modal.openModal();
-    setTimeout(() => this.titleInputElement.nativeElement.focus(), 0);
+    this.focus();
   }
 
   editTask(modal: ModalComponent) {
@@ -124,12 +138,12 @@ export class DashboardComponent {
       this.tasksService.updateTask({
         ...this.editingTask()!,
         title: this.form().title,
-        is_completed: true,
+        is_completed: this.form().is_completed
       });
 
       modal.closeModal();
       this.form.update((state) => ({ ...state, isEditModal: false }));
-      this.titleInput = '';
+      this.clearForm();
       this.editingTask.set(null);
     } catch (error) {
       console.log('error');
@@ -137,12 +151,9 @@ export class DashboardComponent {
   }
 
   resetModal() {
-    if (this.form().isEditModal) {
-      this.form.update((state) => ({
-        ...state,
-        isEditModal: false,
-        isFocused: false,
-      }));
-    }
+    this.form.update((state) => ({
+      ...state,
+      isFocused: false,
+    }));
   }
 }

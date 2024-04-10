@@ -4,20 +4,29 @@
   </h1>
   <main class="h-full w-full max-w-screen-md flex flex-col gap-3">
     <div class="flex justify-between gap-3">
-      <button class="button-primary" (click)="openModal(modal)">
+      <button class="button-primary" (click)="openAddModal(modal)">
         Add to Task
       </button>
-      <button
+      <ng-select
+        [items]="['All', 'Pending', 'Completed']"
+        [multiple]="false"
+        [closeOnSelect]="true"
+        [searchable]="true"
+        [clearable]="false"
+        [(ngModel)]="filterStatus"
+        class="min-w-[15ch] ng-select-custom"
+      ></ng-select>
+      <!-- <button
         class="button-secondary min-w-[15ch] flex rounded justify-between"
       >
         <span>All</span>
         <span>
           <fa-icon [icon]="faChevronDown"></fa-icon>
         </span>
-      </button>
+      </button> -->
     </div>
     <!-- LIST OF TASKS-->
-    <app-task-list (edit-task)="openModalEdit($event, modal)" />
+    <app-task-list [status]="filterStatus" (edit-task)="openModalEdit($event, modal)" />
   </main>
 </div>
 
@@ -48,6 +57,7 @@
       <label class="text-sm text-blue-brown">Status</label>
       <!--<input class="px-2 py-1 w-full outline-button" type="text" />-->
       <ng-select
+        class="ng-select-custom ng-select-light"
         [items]="statusOptions"
         [bindLabel]="'label'"
         [bindValue]="'value'"
