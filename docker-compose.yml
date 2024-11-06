@@ -1,0 +1,8 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: todo-list-frontend
+    ports:
+      - "${PORT:-3001}:80"  # Uses PORT from env or defaults to 3000

@@ -1,5 +1,5 @@
-:3000 {
-    root * ${CADDY_ROOT}
-    file_server
-    try_files {path} /index.html
+:80 {
+	root * {$CADDY_ROOT}
+	file_server
+	try_files {path} /index.html
 }
